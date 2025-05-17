@@ -1,0 +1,149 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f1f8f9;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  position: relative;
+}
+
+.calculator,
+.history {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+}
+
+.calculator-container {
+  width: 720px;
+  position: fixed;
+  top: 20px;
+}
+
+.history {
+  width: 60%;
+  position: absolute;
+  right: 0;
+}
+
+h2,
+h3 {
+  text-align: center;
+  color: #00796b;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  background-color: #00796b;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #004d40;
+}
+
+.result {
+  margin-top: 20px;
+  padding: 14px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  display: none;
+}
+
+.buy {
+  background: #e0f9ec;
+  color: #2e7d32;
+  border: 2px solid #2e7d32;
+}
+
+.sell {
+  background: #fdecea;
+  color: #c62828;
+  border: 2px solid #c62828;
+}
+
+.tradeHistory {
+  display: flex;
+  gap: 20px;
+}
+
+#tradeHistory-buy,
+#tradeHistory-sell {
+  flex: 1;
+}
+
+.trade-item-buy,
+.trade-item-sell {
+  background-color: #f9f9f9;
+  padding: 14px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.trade-item-buy {
+  border-left: 5px solid #00796b;
+}
+.trade-item-sell {
+  border-left: 5px solid #c62828;
+}
+
+.history-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.clear-button {
+  background-color: #c62828;
+  margin-top: 10px;
+}
+
+.export-button {
+  background-color: #00796b;
+  margin-top: 10px;
+}
+
+.clear-button:hover {
+  background-color: #8e0000;
+}
+
+.sl-info {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #555;
+}
