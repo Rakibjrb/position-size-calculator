@@ -28,9 +28,9 @@ function calculatePosition() {
       ? entryPrice - stopLoss * 0.0001
       : entryPrice + stopLoss * 0.0001;
 
-  const resultText = `${tradeType.toUpperCase()} - Lot Size: ${positionSize.toFixed(
+  const resultText = `${tradeType.toUpperCase()} - Lot: ${positionSize.toFixed(
     2
-  )} lots\nSL Price: ${slPrice.toFixed(4)}`;
+  )} | Entry: ${entryPrice} | SL: ${slPrice.toFixed(4)}`;
 
   resultBox.style.display = "block";
   resultBox.className = `result ${tradeType}`;
@@ -58,12 +58,15 @@ function calculatePosition() {
     localStorage.setItem("sell-trades", JSON.stringify(sellTrades));
   }
 
-  window.location.reload();
+  showHistory();
 }
 
 function showHistory() {
   const tradeHistoryBuy = document.getElementById("tradeHistory-buy");
   const tradeHistorySell = document.getElementById("tradeHistory-sell");
+
+  tradeHistoryBuy.innerHTML = "";
+  tradeHistorySell.innerHTML = "";
 
   const buyTrades = JSON.parse(localStorage.getItem("buy-trades")) || [];
   const sellTrades = JSON.parse(localStorage.getItem("sell-trades")) || [];
@@ -80,30 +83,53 @@ function showHistory() {
     return;
   }
 
-  buyTrades.forEach((t) => {
+  function createTradeItems(
+    tradeHistoryParent,
+    className,
+    type,
+    lotSize,
+    entryPrice,
+    stopLoss,
+    slPrice,
+    balance,
+    riskPercent,
+    date
+  ) {
     const div = document.createElement("div");
-    div.className = "trade-item-buy";
-    div.innerHTML = `
-            <strong>${t.type.toUpperCase()}</strong> | Lot: ${
-      t.lotSize
-    } | Risk: ${t.riskPercent}% | SL: ${t.stopLoss} pips<br>
-            Entry: ${t.entryPrice} | SL Price: ${t.slPrice}<br>
-            Balance: $${t.balance} | ${t.date}
-          `;
-    tradeHistoryBuy.appendChild(div);
+    (div.className = className),
+      (div.innerHTML = `
+            <b>${type.toUpperCase()}</b> | Lot <b> ${lotSize}</b> | Entry: <b>${entryPrice}</b> | SL: <b>${stopLoss}</b> pips <br> SL: <b>${slPrice}</b> | Balance: <b>${balance}$</b> | Risk: ${riskPercent}% <br> Date & TIme: <b>${date}</b>`);
+    tradeHistoryParent.appendChild(div);
+  }
+
+  buyTrades.forEach((t) => {
+    createTradeItems(
+      tradeHistoryBuy,
+      "trade-item-buy",
+      t.type,
+      t.lotSize,
+      t.entryPrice,
+      t.stopLoss,
+      t.slPrice,
+      t.balance,
+      t.riskPercent,
+      t.date
+    );
   });
 
   sellTrades.forEach((t) => {
-    const div = document.createElement("div");
-    div.className = "trade-item-sell";
-    div.innerHTML = `
-            <strong>${t.type.toUpperCase()}</strong> | Lot: ${
-      t.lotSize
-    } | Risk: ${t.riskPercent}% | SL: ${t.stopLoss} pips<br>
-            Entry: ${t.entryPrice} | SL Price: ${t.slPrice}<br>
-            Balance: $${t.balance} | ${t.date}
-          `;
-    tradeHistorySell.appendChild(div);
+    createTradeItems(
+      tradeHistorySell,
+      "trade-item-sell",
+      t.type,
+      t.lotSize,
+      t.entryPrice,
+      t.stopLoss,
+      t.slPrice,
+      t.balance,
+      t.riskPercent,
+      t.date
+    );
   });
 }
 
@@ -124,8 +150,8 @@ function ExportCSV() {
     "Balance",
     "Risk %",
     "SL (pips)",
-    "Entry Price",
-    "Stop Loss Price",
+    "Entry",
+    "Stop Loss",
     "Lot Size",
     "P&L",
   ];
@@ -155,8 +181,6 @@ function ExportCSV() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-
-  window.location.reload();
 }
 
 function clearHistory() {
@@ -164,7 +188,7 @@ function clearHistory() {
   localStorage.removeItem("buy-trades");
   localStorage.removeItem("sell-trades");
   // On page load
-  window.location.reload();
+  showHistory();
 }
 
 // On page load
